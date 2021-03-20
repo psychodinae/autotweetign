@@ -5,7 +5,7 @@ const GistMan = require("./gistman");
 
 const URL = process.env.URL;
 const TWITTER = process.env.TWITTER;
-const THREAD_ID= process.env.THREAD_ID;
+const THREAD_ID = process.env.THREAD_ID;
 const GIST_TOKEN = process.env.GIST_TOKEN;
 const FILE_ID = process.env.FILE_ID;
 const FILE_NAME = process.env.FILE_NAME;
@@ -30,10 +30,10 @@ function filterTweets(data) {
   giz
     .read(FILE_ID, FILE_NAME)
     .then((gResp) => {
-      gResp = parseInt(gResp);
+      gResp = BigInt(gResp);
       let fTweets = data.filter((fil) => fil > gResp);
       if (fTweets.length > 0) {
-        giz.update(FILE_ID, "nodetweet", fTweets[0]);
+        giz.update(FILE_ID, FILE_NAME, fTweets[0]);
         postingDeleyed(fTweets);
       }
     })
@@ -49,7 +49,7 @@ function main() {
       let $ = cheerio.load(resp.data.body);
       let allTweets = $(".timeline-Tweet")
         .toArray()
-        .map((element) => parseInt($(element).attr("data-tweet-id")));
+        .map((element) => BigInt($(element).attr("data-tweet-id")));
       filterTweets(allTweets);
     })
     .catch((error) => console.log(error));
