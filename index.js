@@ -5,6 +5,7 @@ const GistMan = require("./gistman");
 
 const URL = process.env.URL;
 const TWITTER = process.env.TWITTER;
+const THREAD_ID= process.env.THREAD_ID;
 const GIST_TOKEN = process.env.GIST_TOKEN;
 const FILE_ID = process.env.FILE_ID;
 const FILE_NAME = process.env.FILE_NAME;
@@ -19,7 +20,7 @@ function postingDeleyed(data) {
       console.log("postando");
       req
         .checkLogin(COOKIE)
-        .then(() => req.post(`[MEDIA=twitter]${tweet}[/MEDIA]`, "18759081"))
+        .then(() => req.post(`[MEDIA=twitter]${tweet}[/MEDIA]`, THREAD_ID))
         .catch(() => console.log("xenNodeError"));
     }, idx * 30000);
   });
