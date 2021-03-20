@@ -1,6 +1,6 @@
-const XenNode = require("xen-node");
 const axios = require("axios");
 const cheerio = require("cheerio");
+const XenNode = require("xen-node");
 const GistMan = require("./gistman");
 
 const URL = process.env.URL;
