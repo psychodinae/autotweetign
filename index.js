@@ -8,6 +8,7 @@ const TWITTER = process.env.TWITTER;
 const GIST_TOKEN = process.env.GIST_TOKEN;
 const FILE_ID = process.env.FILE_ID;
 const COOKIE = JSON.parse(process.env.COOKIE);
+const FILE_NAME = JSON.parse(process.env.FILE_NAME);
 
 const req = new XenNode(URL);
 const giz = new GistMan(GIST_TOKEN);
@@ -26,7 +27,7 @@ function postingDeleyed(data) {
 
 function filterTweets(data) {
   giz
-    .read(FILE_ID, "nodetweet")
+    .read(FILE_ID, FILE_NAME)
     .then((gResp) => {
       gResp = parseInt(gResp);
       let fTweets = data.filter((fil) => fil > gResp);
