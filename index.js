@@ -7,8 +7,8 @@ const URL = process.env.URL;
 const TWITTER = process.env.TWITTER;
 const GIST_TOKEN = process.env.GIST_TOKEN;
 const FILE_ID = process.env.FILE_ID;
+const FILE_NAME = process.env.FILE_NAME;
 const COOKIE = JSON.parse(process.env.COOKIE);
-const FILE_NAME = JSON.parse(process.env.FILE_NAME);
 
 const req = new XenNode(URL);
 const giz = new GistMan(GIST_TOKEN);
