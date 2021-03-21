@@ -61,5 +61,5 @@ function main() {
     .catch((error) => console.log(error));
 }
 
-console.log("rodando");
+console.log("run...");
 main();
