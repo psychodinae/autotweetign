@@ -17,7 +17,6 @@ const giz = new GistMan(GIST_TOKEN);
 function postingDeleyed(data) {
   data.forEach((tweet, idx) => {
     setTimeout(() => {
-      console.log("postando");
       req
         .checkLogin(COOKIE)
         .then(() => req.post(`[MEDIA=twitter]${tweet}[/MEDIA]`, THREAD_ID))
