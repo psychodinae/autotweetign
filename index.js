@@ -3,6 +3,8 @@ const cheerio = require("cheerio");
 const XenNode = require("xen-node");
 const GistMan = require("./gistman");
 
+const timeout = 30000;
+const interval = 60000;
 const URL = process.env.URL;
 const TWITTER = process.env.TWITTER;
 const THREAD_ID = process.env.THREAD_ID;
@@ -15,14 +17,14 @@ const req = new XenNode(URL);
 const giz = new GistMan(GIST_TOKEN);
 
 function postingDeleyed(data) {
+  setTimeout(main, data.length * timeout + interval); // call main recursively with delays
   data.forEach((tweet, idx) => {
     setTimeout(() => {
-      console.log("postando");
       req
         .checkLogin(COOKIE)
         .then(() => req.post(`[MEDIA=twitter]${tweet}[/MEDIA]`, THREAD_ID))
         .catch(() => console.log("xenNodeError"));
-    }, idx * 30000);
+    }, idx * timeout);
   });
 }
 
@@ -33,11 +35,15 @@ function filterTweets(data) {
       gResp = BigInt(gResp);
       let fTweets = data.filter((fil) => fil > gResp);
       if (fTweets.length > 0) {
-        giz.update(FILE_ID, FILE_NAME, fTweets[0]);
+        giz
+          .update(FILE_ID, FILE_NAME, fTweets[0])
+          .catch(() => console.log("gistManUpdateError"));
         postingDeleyed(fTweets);
+      } else {
+        setTimeout(main, interval); // if not have new tweets call main recursively
       }
     })
-    .catch(() => console.log("gistManError"));
+    .catch(() => console.log("gistManReadError"));
 }
 
 function main() {
@@ -56,4 +62,4 @@ function main() {
 }
 
 console.log("rodando");
-setInterval(() => main(), 60000);
+main();
